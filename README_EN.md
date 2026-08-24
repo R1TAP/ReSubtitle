@@ -14,10 +14,10 @@ Audio being played
       │  WASAPI Loopback
       ▼
   Capture ────▶ Bounded Queue ────▶ ASR
-      │                  │
-      │                  │ partial/final
-      ▼                  ▼
-   Live Subtitles      Optional ────▶ Transcript Recording (timeline + auto-fix + SRT/TXT export)
+      │                │
+      │                │ partial/final
+      ▼                ▼
+   Live Subtitles    Optional ────▶ Transcript Recording (timeline + auto-fix + SRT/TXT export)
 ```
 
 ## ✨ Features
@@ -31,7 +31,7 @@ Audio being played
   - Partial backpressure
   - Final sync callbacks
   - **Watchdog** for capture auto-recovery
-- **Transcript Recording**: Generate subtitle files for videos with one keystroke — precise per-sentence timestamps, auto-fix via local small model **(Beta)**.
+- **Transcript Recording**: Generate subtitle files for videos with one keystroke — precise per-sentence timestamps, auto-fix via local small model.
 - **System Tray Resident**: Starts quietly in the background, lightweight architecture, ready when you need it.
 - **Full Customization**: From fonts to colors — make the CC window truly yours, fresh and always by your side.
 
@@ -42,17 +42,7 @@ Audio being played
 - Windows **10/11** (x64)
 - Python **3**
 
-<details>
-<summary>📌 Technical details (click to expand)</summary>
-
-- Python 3.10 ~ 3.13 recommended (developed on 3.13)
-- Model size: ~134 MB (auto-downloaded on first run, resumable)
-- CPU inference only, ~3–4 cores usage
-- No GPU required
-
-</details>
-
-### Install
+### ⚙️ Install
 
 ```
 :: 1. Create environment and install deps
@@ -65,8 +55,6 @@ python -m venv --without-pip .venv
 :: 3. Run
 run.bat
 ```
-
-> For `--demo` mode (no audio/model, simulated subtitles), use `run.bat --demo`.
 
 > If `ensurepip` fails, run `.venv\Scripts\python.exe get-pip.py` after `--without-pip`.
 
