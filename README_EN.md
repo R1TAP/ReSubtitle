@@ -134,13 +134,6 @@ LiveLocalSubtitle/
     └── selftest.py          selftests
 ```
 
-## ⚠️ Known Limitations
-
-- Loopback captures the **default output device** only (use right-click "监听设备" or `--device <substr>` to change)
-- Captures **system playback only** (not microphone, unless "Stereo Mix" is enabled)
-- ASR model is int8-quantized — occasional errors on short utterances; rare duplication on long sentences (the fix rule compresses these)
-- CPU only (GPU support pending official CUDA wheel; CPU is already real-time)
-
 ## 🗺️ Roadmap
 
 - [ ] Local LLM sentence reorder/fix
