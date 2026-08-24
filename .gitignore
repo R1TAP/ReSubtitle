@@ -1,0 +1,33 @@
+# ---- Python ----
+__pycache__/
+*.pyc
+.venv/
+
+# ---- 构建产物 ----
+build/
+dist/
+*.spec
+tmpbuild/
+.tmp/
+
+# ---- 模型（首次运行自动下载，勿提交） ----
+models/
+
+# ---- 用户数据 ----
+recordings/
+记录/
+字幕记录*
+config.ini
+*.log
+
+# ---- 临时测试 / 诊断脚本 ----
+scripts/_*.py
+scripts/_*.wav
+
+# ---- 图标构建产物（logo.svg 为源文件，保留提交） ----
+logo.png
+logo.ico
+
+# ---- IDE ----
+.idea/
+.vscode/
