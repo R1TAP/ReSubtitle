@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Platform-Windows-blue?style=flat-square" alt="Platform" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square" alt="Python" />
   <img src="https://img.shields.io/badge/GUI-PySide6-41CD52?style=flat-square" alt="PySide6" />
-  <img src="https://img.shields.io/badge/License-Apache_2.0-green?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
 </p>
 
 <p align="center">
@@ -30,7 +30,7 @@
        │                            │
        │                            │ partial / final
        ▼                            ▼
-    实时字幕                    可选转录会话 ────▶ 导出记录（精准时间轴 + 自动断句 + SRT/TXT）
+    实时字幕                    可选转录会话 ────▶ 导出字幕
 ```
 
 ## ✨ 功能/特性
@@ -98,6 +98,6 @@
 
 ## 📄 开源许可证与声明
 
-- ReSubtitle 遵循 [Apache License 2.0](LICENSE) 开源协议。
+- ReSubtitle 遵循 [MIT License](LICENSE) 开源协议。
 - 第三方组件与授权声明详见 [NOTICE.md](NOTICE.md)。
 - X-ASR [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) 版权归 k2-fsa 团队及 Dan Povey 等贡献者所有 (Apache-2.0)。
