@@ -2,10 +2,10 @@
 rem One-click build for LiveSubtitle.exe (single file, no console window).
 rem IMPORTANT: keep this file pure ASCII (cmd.exe parses .bat with ANSI/OEM codepage).
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0.."
 if not exist ".venv\Scripts\python.exe" (
-  echo [LiveSubtitle] venv not found. Run the following first:
-  echo   python -m venv --without-pip .venv
+  echo [ReSubtitle] venv not found. Run the following first:
+  echo   python -m venv .venv
   echo   .venv\Scripts\python.exe -m pip install -r requirements.txt
   exit /b 1
 )
@@ -18,14 +18,16 @@ echo [1/3] Installing PyInstaller ...
 if errorlevel 1 goto :fail
 
 echo [2/3] Building exe ...
-".venv\Scripts\pyinstaller" --noconfirm --clean --onefile --windowed --name LiveSubtitle --paths src --collect-all sherpa_onnx --collect-all sherpa_onnx_core --collect-all soundcard build_entry.py
+".venv\Scripts\pyinstaller" --noconfirm --clean --onefile --windowed --name ReSubtitle --icon src\assets\icon.ico --paths src --collect-all sherpa_onnx --collect-all sherpa_onnx_core --collect-all soundcard --add-data "src\assets;assets" scripts\build_entry.py
 if errorlevel 1 goto :fail
 
-echo [3/3] Copying models next to exe ...
+echo [3/3] Copying models and assets to dist ...
 if not exist "dist\models" xcopy /E /I /Y models dist\models >nul
+if exist "src\assets\icon.png" copy /Y src\assets\icon.png dist\ >nul
+if exist "src\assets\icon.ico" copy /Y src\assets\icon.ico dist\ >nul
 
 echo.
-echo Done: dist\LiveSubtitle.exe
+echo Done: dist\ReSubtitle.exe
 echo Usage: double-click it; model loaded from dist\models.
 exit /b 0
 

@@ -35,10 +35,10 @@ class Pipeline(QObject):
         self.asr = StreamingASR(settings.asr_model_dir, settings.asr)
 
         self._capture_thread = threading.Thread(
-            target=self.capture.run, name="livesub-capture", daemon=True)
+            target=self.capture.run, name="resubtitle-capture", daemon=True)
         self._asr_thread = threading.Thread(
             target=lambda: self.asr.run_loop(self._audio_queue),
-            name="livesub-asr", daemon=True)
+            name="resubtitle-asr", daemon=True)
 
         # 音频：采集线程 -> 有界队列 -> ASR 线程
         # ASR 结果：partial 经背压后上屏（见 asr.partial_ack），final 直接提交
@@ -71,11 +71,11 @@ class Pipeline(QObject):
         """启动采集与 ASR 线程。支持反复启停（停止后重建线程）。"""
         if not self._capture_thread.is_alive():
             self._capture_thread = threading.Thread(
-                target=self.capture.run, name="livesub-capture", daemon=True)
+                target=self.capture.run, name="resubtitle-capture", daemon=True)
         if not self._asr_thread.is_alive():
             self._asr_thread = threading.Thread(
                 target=lambda: self.asr.run_loop(self._audio_queue),
-                name="livesub-asr", daemon=True)
+                name="resubtitle-asr", daemon=True)
         self._capture_thread.start()
         self._asr_thread.start()
 

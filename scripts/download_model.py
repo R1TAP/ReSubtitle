@@ -10,8 +10,8 @@ import tarfile
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent / "src"))
 
-from livesub import config as C  # noqa: E402
-from livesub.models import download_with_resume  # noqa: E402
+from resubtitle import config as C  # noqa: E402
+from resubtitle.models import download_with_resume  # noqa: E402
 
 
 def main() -> int:

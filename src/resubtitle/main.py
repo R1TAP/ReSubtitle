@@ -1,11 +1,11 @@
-"""LiveSubtitle 入口。
+"""ReSubtitle 入口。
 
 用法示例：
-  python -m livesub.main                  # 正常模式：采集系统音频 -> 实时字幕
-  python -m livesub.main --demo           # 演示模式：不采集音频，模拟字幕
-  python -m livesub.main --selftest-capture
-  python -m livesub.main --selftest-asr
-  python -m livesub.main --device 扬声器 --font-size 36
+  python -m resubtitle.main                  # 正常模式：采集系统音频 -> 实时字幕
+  python -m resubtitle.main --demo           # 演示模式：不采集音频，模拟字幕
+  python -m resubtitle.main --selftest-capture
+  python -m resubtitle.main --selftest-asr
+  python -m resubtitle.main --device 扬声器 --font-size 36
 """
 from __future__ import annotations
 
@@ -16,8 +16,8 @@ import sys
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(
-        prog="livesub",
-        description="LiveSubtitle —— 桌面实时音频转字幕（本地 ASR + 透明字幕叠加窗）",
+        prog="resubtitle",
+        description="ReSubtitle —— 桌面实时音频转字幕（本地 ASR + 透明字幕叠加窗）",
     )
     p.add_argument("--demo", action="store_true", help="演示模式：不采集音频，循环显示示例字幕")
     p.add_argument("--selftest-capture", action="store_true", help="环回采集自测（打印 5 秒电平）")
@@ -51,7 +51,7 @@ def _install_excepthook():
             from PySide6.QtWidgets import QApplication, QMessageBox
             if QApplication.instance() is None:
                 QApplication([])
-            QMessageBox.critical(None, "LiveSubtitle 错误", text)
+            QMessageBox.critical(None, "ReSubtitle 错误", text)
         except Exception:
             pass
         sys.__excepthook__(exc_type, exc_value, exc_tb)

@@ -84,12 +84,25 @@ def _unregister_hotkeys():
 
 
 def _find_logo() -> str:
-    """定位 logo.svg（exe 同目录 / 项目根 / PyInstaller 解压目录）。"""
+    """定位应用图标（icon.png / icon.ico / icon.svg，exe 同目录 / assets / 项目根 / PyInstaller 解压目录）。"""
     import pathlib
-    cands = [C.PROJECT_ROOT / "logo.svg"]
+    cands = [
+        getattr(C, "ASSETS_DIR", C.PROJECT_ROOT / "src" / "assets") / "icon.png",
+        getattr(C, "ASSETS_DIR", C.PROJECT_ROOT / "src" / "assets") / "icon.ico",
+        getattr(C, "ASSETS_DIR", C.PROJECT_ROOT / "src" / "assets") / "icon.svg",
+        C.PROJECT_ROOT / "icon.png",
+        C.PROJECT_ROOT / "icon.ico",
+        C.PROJECT_ROOT / "logo.svg",
+        C.PROJECT_ROOT / "logo.png",
+    ]
     meipass = getattr(sys, "_MEIPASS", None)
     if meipass:
-        cands.append(pathlib.Path(meipass) / "logo.svg")
+        cands.extend([
+            pathlib.Path(meipass) / "icon.png",
+            pathlib.Path(meipass) / "icon.ico",
+            pathlib.Path(meipass) / "icon.svg",
+            pathlib.Path(meipass) / "logo.svg",
+        ])
     for c in cands:
         if c.exists():
             return str(c)
@@ -97,22 +110,22 @@ def _find_logo() -> str:
 
 
 def _make_tray_icon() -> QIcon:
-    """托盘图标：优先使用 logo.svg，缺失时绘制兜底图标。"""
-    svg = _find_logo()
-    if svg:
-        icon = QIcon(svg)
+    """托盘图标：优先使用高清应用图标，缺失时绘制兜底图标。"""
+    icon_path = _find_logo()
+    if icon_path:
+        icon = QIcon(icon_path)
         if not icon.isNull():
             return icon
-    # 兜底：MD3 紫 + 白色"字"
+    # 兜底：深墨蓝底 + 品牌蓝"字"（与主题风格协调）
     from PySide6.QtGui import QColor, QPainter, QPixmap
     pm = QPixmap(64, 64)
     pm.fill(Qt.transparent)
     p = QPainter(pm)
     p.setRenderHint(QPainter.Antialiasing)
-    p.setBrush(QColor("#6750A4"))
+    p.setBrush(QColor("#202732"))
     p.setPen(Qt.NoPen)
-    p.drawRoundedRect(4, 4, 56, 56, 16, 16)
-    p.setPen(QColor("#FFFFFF"))
+    p.drawRoundedRect(4, 4, 56, 56, 14, 14)
+    p.setPen(QColor("#2C7DF8"))
     f = p.font()
     f.setPixelSize(30)
     f.setBold(True)
@@ -157,7 +170,7 @@ def _run_demo(app: QApplication, window: SubtitleWindow):
 
 def run(settings: C.Settings, demo: bool = False) -> int:
     app = QApplication(sys.argv)
-    app.setApplicationName("LiveSubtitle")
+    app.setApplicationName("ReSubtitle")
     app.setStyle("Fusion")
 
     settings = C.load_settings(settings)
@@ -257,7 +270,7 @@ def run(settings: C.Settings, demo: bool = False) -> int:
         if not session.finals:
             if show:
                 box = QMessageBox(window)
-                box.setWindowTitle("LiveSubtitle")
+                box.setWindowTitle("ReSubtitle")
                 box.setText("本次没有记录到字幕")
                 box.setStandardButtons(QMessageBox.Ok)
                 box.setWindowModality(Qt.NonModal)
@@ -267,7 +280,7 @@ def run(settings: C.Settings, demo: bool = False) -> int:
             srt_path, _txt, n1 = _export_to_disk(session, settings)
         except OSError as e:
             box = QMessageBox(window)
-            box.setWindowTitle("LiveSubtitle")
+            box.setWindowTitle("ReSubtitle")
             box.setText(f"导出失败：{e}")
             box.setStandardButtons(QMessageBox.Ok)
             box.setWindowModality(Qt.NonModal)
@@ -276,7 +289,7 @@ def run(settings: C.Settings, demo: bool = False) -> int:
         print(f"[recording] 已导出 {n1} 句 -> {srt_path}")
         if show:
             box = QMessageBox(window)
-            box.setWindowTitle("LiveSubtitle")
+            box.setWindowTitle("ReSubtitle")
             box.setText(f"记录完成，已导出 {n1} 句：\n{srt_path}\n\n（同时已保存 TXT 文本版）")
             open_btn = box.addButton("打开文件夹", QMessageBox.AcceptRole)
             box.addButton(QMessageBox.Close)
@@ -291,7 +304,7 @@ def run(settings: C.Settings, demo: bool = False) -> int:
 
     # ---------------- 系统托盘 ----------------
     tray = QSystemTrayIcon(icon, app)
-    tray.setToolTip("LiveSubtitle — 实时字幕")
+    tray.setToolTip("ReSubtitle — 实时字幕")
     tray_menu = QMenu()
     preview_active = [False]
 

@@ -1,125 +1,103 @@
-# LiveLocalSubtitle —— 实时音频转字幕
+<p align="center">
+  <b>ReSubtitle</b>
+</p>
 
-**简体中文** | [English](README_EN.md)
+<p align="center">
+  <img src="src/assets/icon.png" width="128" height="128" alt="ReSubtitle Logo" />
+</p>
 
-实时监听正在播放的音频，通过**本地流式 ASR**实时转文字字幕
+<p align="center">
+  <b>简洁易用，轻巧流畅，基于本地流式 ASR 的桌面实时语音转字幕程序</b>
+</p>
 
-简单易用，轻巧流畅，在**全可自定义的**的字幕窗口上，实现类 CC 字幕效果。
+<p align="center">
+  <img src="https://img.shields.io/badge/Platform-Windows-blue?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square" alt="Python" />
+  <img src="https://img.shields.io/badge/GUI-PySide6-41CD52?style=flat-square" alt="PySide6" />
+  <img src="https://img.shields.io/badge/License-Apache_2.0-green?style=flat-square" alt="License" />
+</p>
+
+<p align="center">
+<b>实时监听正在播放的系统音频，通过本地流式 ASR 毫秒级转文字，类 CC 字幕悬浮叠加，托盘常驻，开箱即用。</b>
+</p>
 
 ```
-正在播放的声音
-      │
-      │  WASAPI Loopback
-      ▼
-  采集线程 ────▶ 有界队列 ────▶ ASR 线程
-      │                  │
-      │                  │ partial/final
-      ▼                  ▼
-   实时字幕              可选 ────▶ 转录记录（时间轴+自动断句纠错+SRT/TXT导出）
+正在播放的系统声音
+       │
+       │  WASAPI Loopback (soundcard)
+       ▼
+   采集线程 ────▶ 有界队列 ────▶ ASR 识别线程
+       │                            │
+       │                            │ partial / final
+       ▼                            ▼
+    实时字幕                    可选转录会话 ────▶ 导出记录（精准时间轴 + 自动断句 + SRT/TXT）
 ```
 
 ## ✨ 功能/特性
 
-- **实时字幕**：使用快捷键一键显示/隐藏的实时字幕，随时唤醒，随时可用。
-- **本地流式ASR**：基于X-ASR 160ms Zipformer Transducer，轻巧流畅，无感运行。
-- **自动矫正（Beta）**：基于本地小模型的实时纠正，稳定可靠，杜绝错漏。
-- **稳定架构**：
-  - 有界队列调度
-  - 纯Python线程
-  - Partial背压
-  - final同步回调
-  - **watchdog采集**
-- **转录功能**：使用快捷键为视频快速生成字幕文件，精确的到句的时间轴，通过本地小模型实现**自动矫正（Beta）**。
-- **托盘常驻**：启动后无感后台，轻巧架构，随时唤醒
-- **窗口个性化**：从字体到色彩全可调的CC字幕窗口，新潮搭配，时刻随行。
+- **实时字幕**：一键唤出透明叠加字幕窗，**随时唤醒，随心拖拽**，类 CC 影视字幕体验。
+- **本地流式 ASR**：基于X-ASR，**离线私密，超低延迟，负载平滑**。
+- **WASAPI 环回采集**：原生捕获扬声器音频，无需外接麦克风或安装虚拟音频驱动。
+- **转录会话记录**：一键启动录制，精准对齐时间轴，实时导出高质量 SRT 与 TXT 字幕文件。
+- **能量 VAD & 智能断句**：双重断句机制，杜绝内存累积与延时堆积。
+- **全能个性化**：支持自由调节字体、字号、半透明背景条、描边粗细与自适应行数。
+- **托盘静默常驻**：开箱即用，后台 0 开销，快捷键或托盘菜单随时唤起。
 
 ## 🔧 环境配置
 
-### 适配环境
+### 直接使用
 
 - Windows **10/11**（x64）
-- Python **3**
+- 下载便携版，双击运行即可
 
-## ⚙️ 安装步骤
+### 源码运行
 
-> 使用Release的稳定发布版，或基于源码构建
+- Windows **10/11**（x64）
+- Python **3.10+**
+- 执行 pip install -r requirements.txt 安装环境依赖
 
-```bat
-:: 1. 创建环境
-python -m venv --without-pip .venv
-.venv\Scripts\python.exe -m pip install -r requirements.txt
+## 🚀 快速上手
 
-:: 2. 下载模型（约 134MB，首次运行自动下载；支持断点续传）
-.venv\Scripts\python.exe scripts\download_model.py
+### 1. 运行 ReSubtitle
 
-:: 3. 运行
-run.bat
-```
+- **使用便携版（推荐）**
 
-### 调试
+  双击运行：
 
-> 若 ensurepip 报错，可在用 `--without-pip` 后运行 `.venv\Scripts\python.exe get-pip.py` 引导 pip。
+  `	ext
+  dist/ReSubtitle.exe
+  `
+
+- **开发者环境**
+
+  ```dash
+  # 1. 创建虚拟环境并安装依赖
+  python -m venv .venv
+  .venv\Scripts\pip install -r requirements.txt
+
+  # 2. 准备/下载本地语音模型（约 134MB，支持断点续传）
+  .venv\Scripts\python scripts/download_model.py
+
+  # 3. 启动开发版
+  scripts\run.bat   # 或 .venv\Scripts\python -m resubtitle.main
+
+  # 4. 构建打包单文件便携版
+  scripts\build_exe.bat
+  ```
+
+### 2. 交互与快捷键
+
+| 操作方式 | 功能说明 |
+| :--- | :--- |
+| **F9** | 显示 / 隐藏实时字幕叠加窗口 |
+| **F10** | 开始 / 停止转录会话，自动导出 SRT + TXT 字幕 |
+| **字幕窗左键** | 任意文字区域拖拽移动位置，双击底部快捷复位 |
+| **字幕窗右键** | 呼出快捷菜单 |
+| **系统托盘图标** | 双击显示窗口，右键呼出菜单 |
 
 
-## 🚀 使用指南
+## 📄 开源许可证与声明
 
-| 快捷键 | 功能 |
-|---|---|
-| **F9** | 显示/隐藏实时字幕 |
-| **F10** | 开始/停止转录记录 |
-| 托盘图标 | 显示/隐藏字幕、开始/停止记录、选项调节、退出应用程序 |
-| 字幕窗口 | 显示/隐藏字幕、开始/停止记录、选择监听设备、个性化设置、退出应用程序 |
-
-> 快捷键修改： `config.ini` 中可修改 `hotkey_start` / `hotkey_stop`。
-
-## 📦 自封装与打包
-
-本程序基于开源协议，可在自行修改调整后自行打包
-
-```bat
-:: 通过预制脚本一键打包
-scripts\build_exe.bat
-
-:: 或手动：
-.venv\Scripts\python.exe -m pip install pyinstaller pillow
-.venv\Scripts\python.exe scripts\make_icon.py
-.venv\Scripts\pyinstaller --noconfirm --clean --onefile --windowed ^
-    --name LiveSubtitle --icon logo.ico --paths src ^
-    --collect-all sherpa_onnx --collect-all sherpa_onnx_core --collect-all soundcard ^
-    --add-data "logo.svg;." build_entry.py
-xcopy /E /I /Y models dist\models
-```
-
-## 📁 项目结构
-
-```
-LiveSubtitle/
-├── run.bat / run.ps1        启动脚本
-├── requirements.txt
-├── build_entry.py           PyInstaller
-├── logo.svg                 程序图标
-├── scripts/
-│   ├── download_model.py    模型下载
-│   ├── e2e_test.py          端到端自测
-│   ├── make_icon.py         图标生成
-│   └── build_exe.bat        一键打包
-└── src/livesub/
-    ├── main.py              程序入口
-    ├── config.py            配置与持久化
-    ├── models.py            模型与下载
-    ├── audio.py             WASAPI采集
-    ├── asr.py               流式识别/VAD/句长保护
-    ├── recording.py         转录会话
-    ├── subtitle_window.py   字幕窗口
-    ├── pipeline.py          线程优化
-    ├── app.py               常驻与状态机
-    └── selftest.py          自测试
-```
-
-## 🗺️ Roadmap
-
-- [ ] 本地 LLM 重排/纠错
-- [ ] GPU（CUDA）推理
-- [ ] 历史字幕记录
-- [ ] 自适应排版优化
-- [ ] MSI 安装包
+- ReSubtitle 遵循 [Apache License 2.0](LICENSE) 开源协议。
+- 第三方组件与授权声明详见 [NOTICE.md](NOTICE.md)。
+- X-ASR [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) 版权归 k2-fsa 团队及 Dan Povey 等贡献者所有 (Apache-2.0)。

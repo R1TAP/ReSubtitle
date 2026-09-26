@@ -1,33 +1,123 @@
-# ---- Python ----
-__pycache__/
-*.pyc
+# =============================================================================
+# ReSubtitle - Git Ignore Rules
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# 1. Virtual Environments
+# -----------------------------------------------------------------------------
 .venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+bin/
+include/
+lib/
+lib64/
 
-# ---- 构建产物 ----
+# -----------------------------------------------------------------------------
+# 2. Python Bytecode & Cache
+# -----------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.pyo
+*.so
+
+# Distribution / Packaging
 build/
-dist/
-*.spec
 tmpbuild/
-.tmp/
+develop-eggs/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
 
-# ---- 模型（首次运行自动下载，勿提交） ----
-models/
+# Testing & Type Checking
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.mypy_cache/
+.pyre/
+.pytype/
 
-# ---- 用户数据 ----
-recordings/
-记录/
-字幕记录*
+# -----------------------------------------------------------------------------
+# 3. PyInstaller Build Artifacts
+# -----------------------------------------------------------------------------
+*.manifest
+*.spec
+
+# -----------------------------------------------------------------------------
+# 4. Runtime User Data, Configurations & Logs
+# -----------------------------------------------------------------------------
 config.ini
 *.log
+fatal_error.log
+selftest_gui_error.log
+f.log
+f_err.log
 
-# ---- 临时测试 / 诊断脚本 ----
-scripts/_*.py
-scripts/_*.wav
+# User Subtitle / Recording Exports
+recordings/
+dist/recordings/
+*.srt
+*.vtt
 
-# ---- 图标构建产物（logo.svg 为源文件，保留提交） ----
-logo.png
-logo.ico
+# -----------------------------------------------------------------------------
+# 5. ASR Models & Large Binaries (auto-downloaded via scripts/download_model.py)
+# -----------------------------------------------------------------------------
+models/
+*.onnx
+*.bz2
+*.tar.bz2
+*.tar.gz
+*.zip
 
-# ---- IDE ----
-.idea/
+# -----------------------------------------------------------------------------
+# 6. Distribution Packages (compiled binaries & portable releases)
+# -----------------------------------------------------------------------------
+dist/
+
+# -----------------------------------------------------------------------------
+# 7. IDE & Editor Configurations
+# -----------------------------------------------------------------------------
 .vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# -----------------------------------------------------------------------------
+# 8. Operating System Files
+# -----------------------------------------------------------------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/

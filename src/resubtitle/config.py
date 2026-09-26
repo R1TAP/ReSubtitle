@@ -9,8 +9,9 @@ from pathlib import Path
 if getattr(sys, "frozen", False):
     PROJECT_ROOT = Path(sys.executable).resolve().parent
 else:
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # LiveSubtitle/
-SRC_DIR = Path(__file__).resolve().parent.parent              # LiveSubtitle/src/
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent  # ReSubtitle/
+SRC_DIR = Path(__file__).resolve().parent.parent              # ReSubtitle/src/
+ASSETS_DIR = SRC_DIR / "assets"
 MODELS_DIR = PROJECT_ROOT / "models"
 
 # 主模型：X-ASR 160ms 流式 Zipformer Transducer（中英双语 + 标点，int8，2026-06-05 发布）
