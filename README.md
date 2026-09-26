@@ -13,8 +13,8 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Platform-Windows-blue?style=flat-square" alt="Platform" />
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=flat-square" alt="Python" />
-  <img src="https://img.shields.io/badge/GUI-PySide6-41CD52?style=flat-square" alt="PySide6" />
-  <img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" />
+  <img src="https://img.shields.io/badge/GUI-PySide6-green?style=flat-square" alt="PySide6" />
+  <img src="https://img.shields.io/badge/License-MIT-blue?style=flat-square" alt="License" />
 </p>
 
 <p align="center">
@@ -64,13 +64,13 @@
 
   双击运行：
 
-  `	ext
+  ```text
   dist/ReSubtitle.exe
-  `
+  ```
 
 - **开发者环境**
 
-  ```dash
+  ```bash
   # 1. 创建虚拟环境并安装依赖
   python -m venv .venv
   .venv\Scripts\pip install -r requirements.txt
@@ -99,5 +99,4 @@
 ## 📄 开源许可证与声明
 
 - ReSubtitle 遵循 [MIT License](LICENSE) 开源协议。
-- 第三方组件与授权声明详见 [NOTICE.md](NOTICE.md)。
-- X-ASR [sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx) 版权归 k2-fsa 团队及 Dan Povey 等贡献者所有 (Apache-2.0)。
+  - 第三方组件遵循各自许可证，详见 [NOTICE.md](NOTICE.md)。
